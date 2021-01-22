@@ -1,0 +1,33 @@
+* {
+  margin: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  background-color: #0F0F0F;
+  padding-top: 80px;
+}
+
+body main {
+  width: 1024px;
+  background-color: #FFFFFF;
+  margin: auto;
+}
+
+body footer {
+  width: 1024px;
+  height: 90px;
+  background-color: #559AC8;
+  padding: 24px 440px 23px 440px;
+  text-align: center;
+  font-size: 14px;
+  color: #FFFFFF;
+  margin: auto;
+}
+
+body footer div {
+  color: #FFD366;
+  margin-top: 15px;
+}
+/*# sourceMappingURL=all.css.map */
