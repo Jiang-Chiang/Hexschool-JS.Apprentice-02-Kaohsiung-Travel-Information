@@ -11,9 +11,9 @@ body {
 
 body main {
   width: 1024px;
-  min-height: 980px;
   background-color: #FFFFFF;
   margin: auto;
+  padding-bottom: 41px;
 }
 
 body main #cover {
@@ -45,6 +45,7 @@ body main #cover select {
           appearance: none;
   margin: auto;
   font-size: 18px;
+  font-weight: 800;
   line-height: 21px;
   background-image: url(/img/icons_down.png);
   background-repeat: no-repeat;
@@ -59,12 +60,66 @@ body main #filter {
   width: 800px;
   height: 112px;
   background-color: #FFFFFF;
+  padding: 20px 146px 18px 26px;
   -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
           box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   margin: auto;
+  margin-bottom: 49px;
   position: relative;
   top: -30px;
+}
+
+body main #filter h3 {
+  height: 18px;
+  font-size: 18px;
+  margin-bottom: 14px;
+}
+
+body main #filter .filterButton {
+  width: 130px;
+  height: 42px;
+  border: none;
+  border-radius: 5px;
+  font-size: 20px;
+  color: #FFFFFF;
+}
+
+body main #filter .filterButton:focus {
+  outline: none;
+}
+
+body main #filter .filterButton:hover {
+  opacity: 0.7;
+  color: #353535;
+}
+
+body main #filter .filterButton:active {
+  -webkit-transform: translateY(3px);
+          transform: translateY(3px);
+}
+
+body main #filter .filterButton:nth-child(2) {
+  margin-left: 23px;
+  background-color: #8A82CC;
+}
+
+body main #filter .filterButton:nth-child(2),
+body main #filter .filterButton:nth-child(3),
+body main #filter .filterButton:nth-child(4) {
+  margin-right: 23px;
+}
+
+body main #filter .filterButton:nth-child(3) {
+  background-color: #FFA782;
+}
+
+body main #filter .filterButton:nth-child(4) {
+  background-color: #F5D005;
+}
+
+body main #filter .filterButton:nth-child(5) {
+  background-color: #559AC8;
 }
 
 body main #decorationLine {
@@ -91,15 +146,47 @@ body main #decorationLine::before {
 
 body main #decorationLine::after {
   content: '';
-  border-top: 13px solid #559AC8;
-  border-left: 9px solid transparent;
-  border-right: 9px solid transparent;
+  border-top: 10px solid #559AC8;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
   display: block;
   position: absolute;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
   left: 50%;
   top: 2px;
+}
+
+body main h2 {
+  width: 109px;
+  height: 36px;
+  font-size: 36px;
+  color: #559AC8;
+  margin: auto;
+  margin-top: 76px;
+  margin-bottom: 24px;
+}
+
+body main #informationCardsContainer {
+  width: 944px;
+  min-height: 273px;
+  margin: auto;
+}
+
+body main #informationCardsContainer .informationCard {
+  width: 464px;
+  height: 273px;
+  background: #FFFFFF;
+  -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+          box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+body main #pagination {
+  width: 283.5px;
+  height: 17px;
+  border: 1px solid black;
+  margin: auto;
+  margin-top: 49px;
 }
 
 body footer {
