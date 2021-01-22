@@ -11,8 +11,95 @@ body {
 
 body main {
   width: 1024px;
+  min-height: 980px;
   background-color: #FFFFFF;
   margin: auto;
+}
+
+body main #cover {
+  width: 100%;
+  height: 380px;
+  padding-top: 89px;
+  background-image: url(/img/the-urban-landscape-1698285.png);
+}
+
+body main #cover h1 {
+  width: 265px;
+  font-size: 40px;
+  letter-spacing: 3.89px;
+  color: #FFFFFF;
+  margin: auto;
+  margin-bottom: 96px;
+}
+
+body main #cover select {
+  display: block;
+  width: 452px;
+  height: 48px;
+  border: 3px solid #FFFFFF;
+  border-radius: 3px;
+  padding: 12px 17px 12px 9.5px;
+  background: rgba(255, 255, 255, 0.7);
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  margin: auto;
+  font-size: 18px;
+  line-height: 21px;
+  background-image: url(/img/icons_down.png);
+  background-repeat: no-repeat;
+  background-position: 97% 50%;
+}
+
+body main #cover select:focus {
+  outline: none;
+}
+
+body main #filter {
+  width: 800px;
+  height: 112px;
+  background-color: #FFFFFF;
+  -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+          box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  margin: auto;
+  position: relative;
+  top: -30px;
+}
+
+body main #decorationLine {
+  width: 900px;
+  height: 10px;
+  border-top: 1px dashed #559AC8;
+  margin: auto;
+  position: relative;
+}
+
+body main #decorationLine::before {
+  content: '';
+  width: 24px;
+  height: 24px;
+  border-radius: 100%;
+  border: 2px solid #559AC8;
+  background-color: #FFFFFF;
+  display: block;
+  position: absolute;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  left: 50%;
+}
+
+body main #decorationLine::after {
+  content: '';
+  border-top: 13px solid #559AC8;
+  border-left: 9px solid transparent;
+  border-right: 9px solid transparent;
+  display: block;
+  position: absolute;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  left: 50%;
+  top: 2px;
 }
 
 body footer {
