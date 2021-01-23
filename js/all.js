@@ -1,22 +1,29 @@
 const districtSelect = document.querySelector('#districtSelect');
 const selectedTitle = document.querySelector('#selectedTitle');
 const informationCardsContainer = document.querySelector('#informationCardsContainer');
-const informationCardDetailsRow = document.querySelectorAll('.informationCardDetailsRow');
-const attractionTagBlock = document.querySelectorAll('.attractionTagBlock');
+const filterButton = document.querySelectorAll('.filterButton');
+const pagination = document.querySelector('#pagination');
 const xhr = new XMLHttpRequest();
 
 xhr.open('get', 'https://raw.githubusercontent.com/hexschool/KCGTravel/master/datastore_search.json', true)
 xhr.send(null);
 
-districtSelect.addEventListener('click', filterDistrict);
+districtSelect.addEventListener('change', filterDistrict);
+// pagination.addEventListener('click', currentPage);
+
+for (let i = 0; i < filterButton.length; i++) {
+    filterButton[i].addEventListener('click', filterDistrict)
+}
 
 xhr.onload = function () {
     let resObj = JSON.parse(xhr.responseText);
     let attractionsArr = resObj.result.records;
+    let selectIndex = 0;
+    let currentPageArr = attractionsArr.slice(selectIndex * 6, (selectIndex + 1) * 6);
 
     renderDistrictSelect(attractionsArr);
-    updateInformationCardsContainer(attractionsArr);
-
+    renderPagination(attractionsArr);
+    updateInformationCardsContainer(currentPageArr);
 }
 
 function renderDistrictSelect(attractionsArr) {
@@ -39,11 +46,23 @@ function renderDistrictSelect(attractionsArr) {
     districtSelect.innerHTML += str;
 }
 
+function renderPagination(selectedAttractionsArr) {
+    let paginationStr = '';
+    let totalPages = Math.ceil(selectedAttractionsArr.length / 6);
+
+    for (let i = 0; i < totalPages; i++) {
+        paginationStr += `
+        <li data-index='${i}'>${i + 1}</li>`;
+    }
+
+    pagination.innerHTML = paginationStr;
+}
+
 function updateInformationCardsContainer(selectedAttractionsArr) {
-    let str = '';
+    let informationCardStr = '';
 
     for (let i = 0; i < selectedAttractionsArr.length; i++) {
-        str += `
+        informationCardStr += `
             <div class="informationCard">
                 <div class="informationCardCover">
                     <img src="${selectedAttractionsArr[i].Picture1}" alt="">
@@ -68,25 +87,21 @@ function updateInformationCardsContainer(selectedAttractionsArr) {
                         ${selectedAttractionsArr[i].Ticketinfo}
                     </div>
                 </div>
-            </div>`
+            </div>`;
     }
 
-    informationCardsContainer.innerHTML = str;
 
     if (selectedAttractionsArr.length > 2) {
-
         if (selectedAttractionsArr.length % 2 == 0) {
             informationCardsContainer.style.height = `${((selectedAttractionsArr.length) / 2) * 273 + (selectedAttractionsArr.length - 1) * 36}px`;
-            informationCardsContainer.style.border = `1px solid red`;
         } else {
             informationCardsContainer.style.height = `${((selectedAttractionsArr.length + 1) / 2) * 273 + (selectedAttractionsArr.length - 1) * 36}px`;
-            informationCardsContainer.style.border = `1px solid red`;
         }
-
     } else {
-
         informationCardsContainer.style.height = `273px`;
     }
+
+    informationCardsContainer.innerHTML = informationCardStr;
 }
 
 function filterDistrict(e) {
@@ -107,9 +122,20 @@ function filterDistrict(e) {
         }
     }
 
-    updateInformationCardsContainer(selectedAttractionsArr);
+    let selectIndex = 0;
+    let currentPageArr = selectedAttractionsArr.slice(selectIndex * 6, (selectIndex + 1) * 6)
+
+    updateInformationCardsContainer(currentPageArr);
+    renderPagination(selectedAttractionsArr);
 }
 
-function showTips() {
-    alert('yo');
-}
+// function currentPage(e) {
+
+//     e.preventDefault();
+//     if (e.target.nodeName !== 'LI') { return; }
+
+//     let selectIndex = e.target.dataset.index;
+//     let currentPageArr = selectedAttractionsArr.slice(selectIndex * 6, (selectIndex + 1) * 6)
+
+//     updateInformationCardsContainer(currentPageArr);
+// }
