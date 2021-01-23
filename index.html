@@ -12,22 +12,19 @@
     <main>
         <div id="cover">
             <h1>高雄旅遊資訊</h1>
-            <select name="" id="">
-                <option value="default">－－請選擇行政區－－</option>
-                <option value="default">－－請選擇行政區－－</option>
-                <option value="default">－－請選擇行政區－－</option>
+            <select name="" id="districtSelect">
                 <option value="default">－－請選擇行政區－－</option>
             </select>
         </div>
         <div id="filter">
             <h3>熱門行政區</h3>
-            <button class="filterButton">苓雅區</button>
-            <button class="filterButton">三民區</button>
-            <button class="filterButton">新興區</button>
-            <button class="filterButton">鹽埕區</button>
+            <input type="button" value="苓雅區" class="filterButton">
+            <input type="button" value="三民區" class="filterButton">
+            <input type="button" value="新興區" class="filterButton">
+            <input type="button" value="鹽埕區" class="filterButton">
         </div>
         <div id="decorationLine"></div>
-        <h2>三民區</h2>
+        <h2 id="selectedTitle">全部結果</h2>
         <div id="informationCardsContainer">
 
             <!-- <div class="informationCard">
