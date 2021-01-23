@@ -256,7 +256,18 @@ body main #informationCardsContainer .informationCard .informationCardDetails .i
 }
 
 body main #informationCardsContainer .informationCard .informationCardDetails .informationCardDetailsRow div {
+  width: 290px;
   position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+body main #informationCardsContainer .informationCard .informationCardDetails .attractionOpenTime div {
+  left: 8px;
+}
+
+body main #informationCardsContainer .informationCard .informationCardDetails .attractionAddress div {
   left: 10px;
 }
 
@@ -275,6 +286,9 @@ body main #informationCardsContainer .informationCard .informationCardDetails .a
   position: absolute;
   right: 24px;
   bottom: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 body main #pagination {

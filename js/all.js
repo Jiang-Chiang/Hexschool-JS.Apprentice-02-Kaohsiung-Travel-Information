@@ -1,6 +1,8 @@
 const districtSelect = document.querySelector('#districtSelect');
 const selectedTitle = document.querySelector('#selectedTitle');
 const informationCardsContainer = document.querySelector('#informationCardsContainer');
+const informationCardDetailsRow = document.querySelectorAll('.informationCardDetailsRow');
+const attractionTagBlock = document.querySelectorAll('.attractionTagBlock');
 const xhr = new XMLHttpRequest();
 
 xhr.open('get', 'https://raw.githubusercontent.com/hexschool/KCGTravel/master/datastore_search.json', true)
@@ -13,6 +15,8 @@ xhr.onload = function () {
     let attractionsArr = resObj.result.records;
 
     renderDistrictSelect(attractionsArr);
+    updateInformationCardsContainer(attractionsArr);
+
 }
 
 function renderDistrictSelect(attractionsArr) {
@@ -35,23 +39,7 @@ function renderDistrictSelect(attractionsArr) {
     districtSelect.innerHTML += str;
 }
 
-function filterDistrict(e) {
-    let resObj = JSON.parse(xhr.responseText);
-    let attractionsArr = resObj.result.records;
-    let selectedDistrict = e.target.value;
-    let selectedAttractionsArr = [];
-
-    selectedTitle.innerHTML = selectedDistrict;
-
-    for (let i = 0; i < attractionsArr.length; i++) {
-
-        if (selectedDistrict == attractionsArr[i].Zone) {
-            selectedAttractionsArr.push(attractionsArr[i]);
-        }
-    }
-
-    console.log(selectedAttractionsArr);
-
+function updateInformationCardsContainer(selectedAttractionsArr) {
     let str = '';
 
     for (let i = 0; i < selectedAttractionsArr.length; i++) {
@@ -84,4 +72,44 @@ function filterDistrict(e) {
     }
 
     informationCardsContainer.innerHTML = str;
+
+    if (selectedAttractionsArr.length > 2) {
+
+        if (selectedAttractionsArr.length % 2 == 0) {
+            informationCardsContainer.style.height = `${((selectedAttractionsArr.length) / 2) * 273 + (selectedAttractionsArr.length - 1) * 36}px`;
+            informationCardsContainer.style.border = `1px solid red`;
+        } else {
+            informationCardsContainer.style.height = `${((selectedAttractionsArr.length + 1) / 2) * 273 + (selectedAttractionsArr.length - 1) * 36}px`;
+            informationCardsContainer.style.border = `1px solid red`;
+        }
+
+    } else {
+
+        informationCardsContainer.style.height = `273px`;
+    }
+}
+
+function filterDistrict(e) {
+    let resObj = JSON.parse(xhr.responseText);
+    let attractionsArr = resObj.result.records;
+    let selectedDistrict = e.target.value;
+    let selectedAttractionsArr = [];
+
+    selectedTitle.innerHTML = selectedDistrict;
+
+    if (selectedDistrict == '全部結果') {
+        selectedAttractionsArr = attractionsArr;
+    } else {
+        for (let i = 0; i < attractionsArr.length; i++) {
+            if (selectedDistrict == attractionsArr[i].Zone) {
+                selectedAttractionsArr.push(attractionsArr[i]);
+            }
+        }
+    }
+
+    updateInformationCardsContainer(selectedAttractionsArr);
+}
+
+function showTips() {
+    alert('yo');
 }
