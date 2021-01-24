@@ -1,3 +1,4 @@
+// 變數宣告
 const districtSelect = document.querySelector('#districtSelect');
 const selectedTitle = document.querySelector('#selectedTitle');
 const informationCardsContainer = document.querySelector('#informationCardsContainer');
@@ -5,22 +6,27 @@ const filterButton = document.querySelectorAll('.filterButton');
 const pagination = document.querySelector('#pagination');
 const xhr = new XMLHttpRequest();
 
+// XMLHttpRequest抓取目標JSON檔案
 xhr.open('get', 'https://raw.githubusercontent.com/hexschool/KCGTravel/master/datastore_search.json', false);
 xhr.send(null);
 
+// JSON檔解析放入變數
 let allAttractionsArr = JSON.parse(xhr.responseText).result.records;
 let selectedAttractionsArr = allAttractionsArr;
 
+// 監聽事件
 districtSelect.addEventListener('change', selectDistrict);
 for (let i = 0; i < filterButton.length; i++) {
-    filterButton[i].addEventListener('click', selectDistrict)
+    filterButton[i].addEventListener('click', selectDistrict);
 }
-pagination.addEventListener('click', selectPage)
+pagination.addEventListener('click', selectPage);
 
+// 初始化渲染
 renderDistrictList();
 updateInformationCardsContainer(allAttractionsArr, 0);
 updatepagination(allAttractionsArr);
 
+// 函式：渲染行政區下拉選單
 function renderDistrictList() {
     let districtArr = [];
 
@@ -41,6 +47,7 @@ function renderDistrictList() {
     districtSelect.innerHTML += str;
 }
 
+// 函式：選擇行政區
 function selectDistrict(e) {
     let selectedDistrict = e.target.value;
 
@@ -57,10 +64,24 @@ function selectDistrict(e) {
         }
     }
 
+    if (e.target.classList == 'filterButton') {
+        let options = document.querySelectorAll('option');
+
+        for (let i = 0; i < options.length; i++) {
+            options[i].removeAttribute('selected');
+        }
+        for (let i = 0; i < options.length; i++) {
+            if (options[i].value == selectedDistrict) {
+                options[i].setAttribute('selected', 'selected');
+            }
+        }
+    }
+
     updateInformationCardsContainer(selectedAttractionsArr, 0);
     updatepagination(selectedAttractionsArr);
 }
 
+// 函式：更新與渲染景點清單區域
 function updateInformationCardsContainer(attractionsArr, currentPage) {
     let informationCardStr = '';
 
@@ -117,6 +138,7 @@ function updateInformationCardsContainer(attractionsArr, currentPage) {
 
 }
 
+// 函式：更新並渲染分頁頁碼
 function updatepagination(attractionsArr) {
     let totalPages = Math.ceil(attractionsArr.length / 6);
     let paginationStr = '';
@@ -141,6 +163,7 @@ function updatepagination(attractionsArr) {
     pagination.innerHTML = paginationStr;
 }
 
+// 函式：選擇分頁
 function selectPage(e) {
     e.preventDefault();
     let pages = document.querySelectorAll('.page');
