@@ -68,7 +68,7 @@ function updateInformationCardsContainer(attractionsArr, currentPage) {
 
     if (attractionsArr.length == 0) {
         informationCardStr = `
-        <div>查無資料！</div>`
+            <h2 id='noInformationAlert'>查無資料</h2>`
     } else {
 
         attractionsArr = attractionsArr.slice(currentPage * 6, (currentPage + 1) * 6);
@@ -126,7 +126,7 @@ function updatepagination(attractionsArr) {
             <li class='page currentPage' data-index='0'>1</li>`;
     } else {
         paginationStr += `
-        <li id='prevPageButton'>＜prev</li>
+        <li id='prevPageButton'>< prev</li>
         <li class='page currentPage' data-index='${0}'>${1}</li>`;
 
         for (let i = 1; i < totalPages; i++) {
@@ -135,7 +135,7 @@ function updatepagination(attractionsArr) {
         }
 
         paginationStr += `
-        <li id='nextPageButton'>Next＞</li>`;
+        <li id='nextPageButton'>Next ></li>`;
     }
 
     pagination.innerHTML = paginationStr;
@@ -145,7 +145,6 @@ function selectPage(e) {
     e.preventDefault();
     let pages = document.querySelectorAll('.page');
     let selectPageNum = Number(e.target.dataset.index);
-    // let currentPage = document.querySelectorAll('.currentPage')[0];
     let currentPageNum = Number(document.querySelectorAll('.currentPage')[0].dataset.index);
 
     if (e.target.nodeName !== 'LI') {

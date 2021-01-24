@@ -171,6 +171,13 @@ body main h2 {
   margin-bottom: 24px;
 }
 
+body main #noInformationAlert {
+  width: 200px;
+  font-size: 28px;
+  line-height: 28px;
+  color: red;
+}
+
 body main #informationCardsContainer {
   width: 944px;
   min-height: 273px;
@@ -294,28 +301,43 @@ body main #informationCardsContainer .informationCard .informationCardDetails .a
 }
 
 body main #pagination {
-  width: 283.5px;
-  height: 17px;
-  border: 1px solid black;
+  max-width: 500px;
+  height: 30px;
   padding: 0;
   margin: auto;
-  margin-top: 49px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
+  margin-top: 35px;
+  text-align: center;
 }
 
 body main #pagination li {
-  border: 1px solid black;
-  width: 15px;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
   list-style: none;
   text-align: center;
 }
 
 body main #pagination li:hover {
   cursor: pointer;
+}
+
+body main #pagination .currentPage {
+  border-radius: 30px;
+  color: #FFFFFF;
+  background-color: #559AC8;
+}
+
+body main #pagination #prevPageButton, body main #pagination #nextPageButton {
+  width: 50px;
+}
+
+body main #pagination #prevPageButton {
+  margin-right: 10px;
+}
+
+body main #pagination #nextPageButton {
+  margin-left: 10px;
 }
 
 body footer {
