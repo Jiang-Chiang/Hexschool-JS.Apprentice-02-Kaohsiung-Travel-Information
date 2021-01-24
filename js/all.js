@@ -104,19 +104,19 @@ function updateInformationCardsContainer(attractionsArr, currentPage) {
                     </div>
                     <div class="informationCardDetails">
                         <div class="informationCardDetailsRow attractionOpenTime">
-                            <img src="/img/icons_clock.png" alt="">
+                            <img src="./img/icons_clock.png" alt="">
                             <div>${attractionsArr[i].Opentime}</div>
                         </div>
                         <div class="informationCardDetailsRow attractionAddress">
-                            <img src="/img/icons_pin.png" alt="">
+                            <img src="./img/icons_pin.png" alt="">
                             <div>${attractionsArr[i].Add}</div>
                         </div>
                         <div class="informationCardDetailsRow attractionPhone">
-                            <img src="/img/icons_phone.png" alt="">
+                            <img src="./img/icons_phone.png" alt="">
                             <div>${attractionsArr[i].Tel}</div>
                         </div>
                         <div class="attractionTagBlock">
-                            <img src="/img/icons_tag.png" alt="">
+                            <img src="./img/icons_tag.png" alt="">
                             ${attractionsArr[i].Ticketinfo}
                         </div>
                     </div>
