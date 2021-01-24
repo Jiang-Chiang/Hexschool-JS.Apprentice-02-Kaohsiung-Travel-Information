@@ -19,6 +19,7 @@ pagination.addEventListener('click', selectPage)
 
 renderDistrictList();
 updateInformationCardsContainer(allAttractionsArr, 0);
+updatepagination(allAttractionsArr);
 
 function renderDistrictList() {
     let districtArr = [];
@@ -57,31 +58,11 @@ function selectDistrict(e) {
     }
 
     updateInformationCardsContainer(selectedAttractionsArr, 0);
+    updatepagination(selectedAttractionsArr);
 }
 
 function updateInformationCardsContainer(attractionsArr, currentPage) {
-    let totalPages = Math.ceil(attractionsArr.length / 6);
-    let paginationStr = '';
     let informationCardStr = '';
-
-    if (totalPages <= 1) {
-        paginationStr = `
-            <li class='page currentPage' data-index='0'>1</li>`;
-    } else {
-        paginationStr += `
-        <li>＜prev</li>
-        <li class='page currentPage' data-index='${0}'>${1}</li>`;
-
-        for (let i = 1; i < totalPages; i++) {
-            paginationStr += `
-            <li class='page' data-index='${i}'>${i + 1}</li>`;
-        }
-
-        paginationStr += `
-        <li>Next＞</li>`;
-    }
-
-    pagination.innerHTML = paginationStr;
 
     informationCardsContainer.innerHTML = '';
 
@@ -136,9 +117,63 @@ function updateInformationCardsContainer(attractionsArr, currentPage) {
 
 }
 
+function updatepagination(attractionsArr) {
+    let totalPages = Math.ceil(attractionsArr.length / 6);
+    let paginationStr = '';
+
+    if (totalPages <= 1) {
+        paginationStr = `
+            <li class='page currentPage' data-index='0'>1</li>`;
+    } else {
+        paginationStr += `
+        <li id='prevPageButton'>＜prev</li>
+        <li class='page currentPage' data-index='${0}'>${1}</li>`;
+
+        for (let i = 1; i < totalPages; i++) {
+            paginationStr += `
+            <li class='page' data-index='${i}'>${i + 1}</li>`;
+        }
+
+        paginationStr += `
+        <li id='nextPageButton'>Next＞</li>`;
+    }
+
+    pagination.innerHTML = paginationStr;
+}
+
 function selectPage(e) {
     e.preventDefault();
-    if (e.target.nodeName !== 'LI') { return; }
-    let pageNum = Number(e.target.dataset.index);
-    updateInformationCardsContainer(selectedAttractionsArr, pageNum);
+    let pages = document.querySelectorAll('.page');
+    let selectPageNum = Number(e.target.dataset.index);
+    // let currentPage = document.querySelectorAll('.currentPage')[0];
+    let currentPageNum = Number(document.querySelectorAll('.currentPage')[0].dataset.index);
+
+    if (e.target.nodeName !== 'LI') {
+        return;
+    } else if (e.target.id == 'prevPageButton') {
+        if (currentPageNum > 0) {
+            selectPageNum = Number(pages[currentPageNum - 1].dataset.index);
+            pages[currentPageNum].classList.remove('currentPage');
+            pages[currentPageNum - 1].classList.add('currentPage');
+        } else {
+            selectPageNum = 0;
+            alert('已經是第一頁了！')
+        }
+    } else if (e.target.id == 'nextPageButton') {
+        if (currentPageNum < pages.length - 1) {
+            selectPageNum = Number(pages[currentPageNum + 1].dataset.index);
+            pages[currentPageNum].classList.remove('currentPage');
+            pages[currentPageNum + 1].classList.add('currentPage');
+        } else {
+            selectPageNum = pages.length - 1;
+            alert('已經是最後一頁了！');
+        }
+    } else {
+        pages.forEach(function (element) {
+            element.classList.remove('currentPage');
+        });
+        e.target.classList.add('currentPage');
+    }
+
+    updateInformationCardsContainer(selectedAttractionsArr, selectPageNum);
 }
