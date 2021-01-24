@@ -163,6 +163,8 @@ body main h2 {
   width: 150px;
   height: 36px;
   font-size: 36px;
+  line-height: 36px;
+  text-align: center;
   color: #559AC8;
   margin: auto;
   margin-top: 76px;

@@ -5,32 +5,26 @@ const filterButton = document.querySelectorAll('.filterButton');
 const pagination = document.querySelector('#pagination');
 const xhr = new XMLHttpRequest();
 
-xhr.open('get', 'https://raw.githubusercontent.com/hexschool/KCGTravel/master/datastore_search.json', true)
+xhr.open('get', 'https://raw.githubusercontent.com/hexschool/KCGTravel/master/datastore_search.json', false);
 xhr.send(null);
 
-districtSelect.addEventListener('change', filterDistrict);
-// pagination.addEventListener('click', currentPage);
+let allAttractionsArr = JSON.parse(xhr.responseText).result.records;
+let selectedAttractionsArr = allAttractionsArr;
 
+districtSelect.addEventListener('change', selectDistrict);
 for (let i = 0; i < filterButton.length; i++) {
-    filterButton[i].addEventListener('click', filterDistrict)
+    filterButton[i].addEventListener('click', selectDistrict)
 }
+pagination.addEventListener('click', selectPage)
 
-xhr.onload = function () {
-    let resObj = JSON.parse(xhr.responseText);
-    let attractionsArr = resObj.result.records;
-    let selectIndex = 0;
-    let currentPageArr = attractionsArr.slice(selectIndex * 6, (selectIndex + 1) * 6);
+renderDistrictList();
+updateInformationCardsContainer(allAttractionsArr, 0);
 
-    renderDistrictSelect(attractionsArr);
-    renderPagination(attractionsArr);
-    updateInformationCardsContainer(currentPageArr);
-}
-
-function renderDistrictSelect(attractionsArr) {
+function renderDistrictList() {
     let districtArr = [];
 
-    for (let i = 0; i < attractionsArr.length; i++) {
-        let district = attractionsArr[i].Zone;
+    for (let i = 0; i < allAttractionsArr.length; i++) {
+        let district = allAttractionsArr[i].Zone;
 
         if (districtArr.indexOf(district) == -1) {
             districtArr.push(district)
@@ -46,96 +40,105 @@ function renderDistrictSelect(attractionsArr) {
     districtSelect.innerHTML += str;
 }
 
-function renderPagination(selectedAttractionsArr) {
-    let paginationStr = '';
-    let totalPages = Math.ceil(selectedAttractionsArr.length / 6);
+function selectDistrict(e) {
+    let selectedDistrict = e.target.value;
 
-    for (let i = 0; i < totalPages; i++) {
+    selectedTitle.innerHTML = selectedDistrict;
+    selectedAttractionsArr = [];
+
+    if (selectedDistrict == '全部結果') {
+        selectedAttractionsArr = allAttractionsArr;
+    } else {
+        for (let i = 0; i < allAttractionsArr.length; i++) {
+            if (selectedDistrict == allAttractionsArr[i].Zone) {
+                selectedAttractionsArr.push(allAttractionsArr[i]);
+            }
+        }
+    }
+
+    updateInformationCardsContainer(selectedAttractionsArr, 0);
+}
+
+function updateInformationCardsContainer(attractionsArr, currentPage) {
+    let totalPages = Math.ceil(attractionsArr.length / 6);
+    let paginationStr = '';
+    let informationCardStr = '';
+
+    if (totalPages <= 1) {
+        paginationStr = `
+            <li class='page currentPage' data-index='0'>1</li>`;
+    } else {
         paginationStr += `
-        <li data-index='${i}'>${i + 1}</li>`;
+        <li>＜prev</li>
+        <li class='page currentPage' data-index='${0}'>${1}</li>`;
+
+        for (let i = 1; i < totalPages; i++) {
+            paginationStr += `
+            <li class='page' data-index='${i}'>${i + 1}</li>`;
+        }
+
+        paginationStr += `
+        <li>Next＞</li>`;
     }
 
     pagination.innerHTML = paginationStr;
-}
 
-function updateInformationCardsContainer(selectedAttractionsArr) {
-    let informationCardStr = '';
+    informationCardsContainer.innerHTML = '';
 
-    for (let i = 0; i < selectedAttractionsArr.length; i++) {
-        informationCardStr += `
-            <div class="informationCard">
-                <div class="informationCardCover">
-                    <img src="${selectedAttractionsArr[i].Picture1}" alt="">
-                    <div class="attractionTtile">${selectedAttractionsArr[i].Name}</div>
-                    <div class="attractionDistrict">${selectedAttractionsArr[i].Zone}</div>
-                </div>
-                <div class="informationCardDetails">
-                    <div class="informationCardDetailsRow attractionOpenTime">
-                        <img src="/img/icons_clock.png" alt="">
-                        <div>${selectedAttractionsArr[i].Opentime}</div>
+    if (attractionsArr.length == 0) {
+        informationCardStr = `
+        <div>查無資料！</div>`
+    } else {
+
+        attractionsArr = attractionsArr.slice(currentPage * 6, (currentPage + 1) * 6);
+
+        for (let i = 0; i < attractionsArr.length; i++) {
+            informationCardStr += `
+                <div class="informationCard">
+                    <div class="informationCardCover">
+                        <img src="${attractionsArr[i].Picture1}" alt="">
+                        <div class="attractionTtile">${attractionsArr[i].Name}</div>
+                        <div class="attractionDistrict">${attractionsArr[i].Zone}</div>
                     </div>
-                    <div class="informationCardDetailsRow attractionAddress">
-                        <img src="/img/icons_pin.png" alt="">
-                        <div>${selectedAttractionsArr[i].Add}</div>
+                    <div class="informationCardDetails">
+                        <div class="informationCardDetailsRow attractionOpenTime">
+                            <img src="/img/icons_clock.png" alt="">
+                            <div>${attractionsArr[i].Opentime}</div>
+                        </div>
+                        <div class="informationCardDetailsRow attractionAddress">
+                            <img src="/img/icons_pin.png" alt="">
+                            <div>${attractionsArr[i].Add}</div>
+                        </div>
+                        <div class="informationCardDetailsRow attractionPhone">
+                            <img src="/img/icons_phone.png" alt="">
+                            <div>${attractionsArr[i].Tel}</div>
+                        </div>
+                        <div class="attractionTagBlock">
+                            <img src="/img/icons_tag.png" alt="">
+                            ${attractionsArr[i].Ticketinfo}
+                        </div>
                     </div>
-                    <div class="informationCardDetailsRow attractionPhone">
-                        <img src="/img/icons_phone.png" alt="">
-                        <div>${selectedAttractionsArr[i].Tel}</div>
-                    </div>
-                    <div class="attractionTagBlock">
-                        <img src="/img/icons_tag.png" alt="">
-                        ${selectedAttractionsArr[i].Ticketinfo}
-                    </div>
-                </div>
-            </div>`;
+                </div>`;
+        }
     }
 
+    informationCardsContainer.innerHTML = informationCardStr;
 
-    if (selectedAttractionsArr.length > 2) {
-        if (selectedAttractionsArr.length % 2 == 0) {
-            informationCardsContainer.style.height = `${((selectedAttractionsArr.length) / 2) * 273 + (selectedAttractionsArr.length - 1) * 36}px`;
+    if (attractionsArr.length > 2) {
+        if (attractionsArr.length % 2 == 0) {
+            informationCardsContainer.style.height = `${((attractionsArr.length) / 2) * 273 + (attractionsArr.length - 1) * 36}px`;
         } else {
-            informationCardsContainer.style.height = `${((selectedAttractionsArr.length + 1) / 2) * 273 + (selectedAttractionsArr.length - 1) * 36}px`;
+            informationCardsContainer.style.height = `${((attractionsArr.length + 1) / 2) * 273 + (attractionsArr.length - 1) * 36}px`;
         }
     } else {
         informationCardsContainer.style.height = `273px`;
     }
 
-    informationCardsContainer.innerHTML = informationCardStr;
 }
 
-function filterDistrict(e) {
-    let resObj = JSON.parse(xhr.responseText);
-    let attractionsArr = resObj.result.records;
-    let selectedDistrict = e.target.value;
-    let selectedAttractionsArr = [];
-
-    selectedTitle.innerHTML = selectedDistrict;
-
-    if (selectedDistrict == '全部結果') {
-        selectedAttractionsArr = attractionsArr;
-    } else {
-        for (let i = 0; i < attractionsArr.length; i++) {
-            if (selectedDistrict == attractionsArr[i].Zone) {
-                selectedAttractionsArr.push(attractionsArr[i]);
-            }
-        }
-    }
-
-    let selectIndex = 0;
-    let currentPageArr = selectedAttractionsArr.slice(selectIndex * 6, (selectIndex + 1) * 6)
-
-    updateInformationCardsContainer(currentPageArr);
-    renderPagination(selectedAttractionsArr);
+function selectPage(e) {
+    e.preventDefault();
+    if (e.target.nodeName !== 'LI') { return; }
+    let pageNum = Number(e.target.dataset.index);
+    updateInformationCardsContainer(selectedAttractionsArr, pageNum);
 }
-
-// function currentPage(e) {
-
-//     e.preventDefault();
-//     if (e.target.nodeName !== 'LI') { return; }
-
-//     let selectIndex = e.target.dataset.index;
-//     let currentPageArr = selectedAttractionsArr.slice(selectIndex * 6, (selectIndex + 1) * 6)
-
-//     updateInformationCardsContainer(currentPageArr);
-// }
