@@ -22,7 +22,7 @@ body main #cover {
   width: 100%;
   height: 380px;
   padding-top: 89px;
-  background-image: url(/img/the-urban-landscape-1698285.png);
+  background-image: url(./img/the-urban-landscape-1698285.png);
 }
 
 body main #cover h1 {
@@ -49,7 +49,7 @@ body main #cover select {
   font-size: 18px;
   font-weight: 500;
   line-height: 21px;
-  background-image: url(/img/icons_down.png);
+  background-image: url(./img/icons_down.png);
   background-repeat: no-repeat;
   background-position: 97% 50%;
 }
